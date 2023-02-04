@@ -1,0 +1,50 @@
+@import "vars";
+@import "fonts";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    background: $bg-color;
+}
+h1 {
+    display: inline-block;
+    padding: $default-space 3rem $default-space $default-space;
+    margin: $default-space * 2 0 $default-space * 2;
+    border-top-right-radius: 100vw;
+    border-bottom-right-radius: 100vw;
+    background: $primary-color;
+    color: $light-bg;
+}
+
+input,
+button,
+select {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    color: inherit;
+    border: none;
+    width: inherit;
+    display: block;
+
+    border-radius: 0.1rem;
+    padding: $default-space;
+    background: $bg-color;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
