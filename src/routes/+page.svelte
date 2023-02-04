@@ -12,6 +12,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Scoreboard</title>
+</svelte:head>
+
 <h1>Fahrrad-Fahr-Wettbewerb</h1>
 {#if showTable}
     <table class="scoreboard">

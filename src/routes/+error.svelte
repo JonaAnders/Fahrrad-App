@@ -41,6 +41,8 @@
     }
 </script>
 
+<svelte:head><title>Fehler {$page.status}</title></svelte:head>
+
 <h1>{$page.status}</h1>
 <p>
     {message}

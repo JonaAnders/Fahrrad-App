@@ -2,6 +2,9 @@
     import "$lib/styles/styles.scss";
 </script>
 
+<svelte:head>
+    <title>Fahrrad-Wettbewerb</title>
+</svelte:head>
 <main><slot /></main>
 
 <style lang="scss">
