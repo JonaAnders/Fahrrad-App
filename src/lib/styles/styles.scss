@@ -13,6 +13,7 @@ body {
     background: $bg-color;
 }
 h1 {
+    max-width: 90%;
     display: inline-block;
     padding: $default-space 3rem $default-space $default-space;
     margin: $default-space * 2 0 $default-space * 2;

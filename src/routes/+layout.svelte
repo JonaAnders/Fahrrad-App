@@ -16,4 +16,9 @@
         flex: 1 1 auto;
         background: $light-bg;
     }
+    @media screen and (max-width: 800px) {
+        main {
+            margin: 0 0;
+        }
+    }
 </style>

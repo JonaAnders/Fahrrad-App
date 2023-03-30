@@ -6,6 +6,11 @@
     import type { PageServerData } from "./$types";
 
     export let data: PageServerData;
+
+    $: scoreboard = [...data.groupScoreboard].concat(
+        new Array(10 - data.groupScoreboard.length).fill(0)
+    );
+
     let showBicycle = false;
     let showTable = false;
     onMount(() => {
@@ -55,10 +60,11 @@
         {/if}</button
     >
 </form>
+<h3>Gefahrene Kilometer: {data.summedKilometers}km</h3>
 {#if showTable}
     <table class="scoreboard">
         <tr transition:slide><th>Scoreboard</th></tr>
-        {#each data.groupScoreboard as scoreboardEntry}
+        {#each scoreboard as scoreboardEntry}
             <tr transition:slide><td>{scoreboardEntry}km</td></tr>
         {/each}
     </table>
@@ -82,9 +88,9 @@
     }
     form {
         display: flex;
-        width: 33%;
+        max-width: 90%;
         input {
-            width: 100%;
+            max-width: 100%;
             padding-right: 2rem;
             position: relative;
             border-top-right-radius: 0;
@@ -92,7 +98,7 @@
         }
         label.kilometer-label {
             position: relative;
-            width: 100%;
+            max-width: 100%;
             &::after {
                 content: "km";
                 position: absolute;
@@ -106,9 +112,14 @@
             color: $light-bg;
         }
     }
+    h3 {
+        margin-top: $default-space * 4;
+        text-align: center;
+    }
     .scoreboard {
-        width: 33%;
-        margin: 3rem auto 0;
+        min-width: 33%;
+        max-width: 90%;
+        margin: $default-space * 2 auto 0;
         background: $bg-color;
         border-radius: $default-space;
         border: solid 0.2rem $primary-color;
@@ -139,7 +150,13 @@
         }
     }
     .bicycle-wrapper {
-        width: 33%;
+        max-width: 100%;
         flex: 1 1 auto;
+    }
+
+    @media screen and (max-width: 800px) {
+        .scoreboard {
+            min-width: 80%;
+        }
     }
 </style>
