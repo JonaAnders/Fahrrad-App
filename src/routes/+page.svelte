@@ -17,6 +17,7 @@
 </svelte:head>
 
 <h1>Fahrrad-Fahr-Wettbewerb</h1>
+<div class="summed-kilometers">Insgesamt gefahren: {data.summedKilometers} Kilometer</div>
 {#if showScoreBoard}
     <div class="scoreboard">
         <h3 transition:slide>Scoreboard</h3>
@@ -30,9 +31,15 @@
 
 <style lang="scss">
     @import "../lib/styles/vars";
+    .summed-kilometers {
+        margin-top: $default-space * 2;
+        font-weight: bold;
+        font-size: 1.5rem;
+        text-align: center;
+    }
     .scoreboard {
         width: 33%;
-        margin: 3rem auto 0;
+        margin: $default-space * 4 auto 0;
         background: $bg-color;
         border-radius: $default-space;
         border: solid 0.2rem $primary-color;

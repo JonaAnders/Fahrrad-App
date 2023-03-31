@@ -68,20 +68,6 @@ export const getMileageFromGroupId = async (
     });
 };
 
-export const getScoreboard = async (
-    connection: Connection
-): Promise<{ kilometers: number; name: string }[]> => {
-    const [rows] = (await connection.execute(
-        `SELECT SUM(kilometers) AS kilometers, name FROM mileages
-        INNER JOIN groups WHERE groups.group_id = mileages.group_id
-        GROUP BY mileages.group_id
-        ORDER BY kilometers DESC;`,
-        []
-    )) as RowDataPacket[] as { kilometers: number; name: string }[][];
-
-    return rows;
-};
-
 export const getRankedGroups = async (connection: Connection): Promise<{ name: string }[]> => {
     const [rows] = (await connection.execute(
         `SELECT groups.name
@@ -102,4 +88,13 @@ export const addGroup = async (connection: Connection, { groupName }: { groupNam
         groupName,
         identifier
     ]);
+};
+
+export const getSummedMileage = async (connection: Connection): Promise<number> => {
+    const [rows] = (await connection.execute(
+        `SELECT SUM(kilometers) as kilometers FROM mileages;`,
+        []
+    )) as RowDataPacket[] as { kilometers: number }[][];
+
+    return rows[0].kilometers;
 };

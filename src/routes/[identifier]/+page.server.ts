@@ -38,7 +38,7 @@ export const actions: Actions = {
         if (kilometers === null) {
             throw error(400, "Bad Request");
         }
-        const parsedKilometers = parseFloat(kilometers);
+        const parsedKilometers = Math.round(parseFloat(kilometers) * 100) / 100;
         if (isNaN(parsedKilometers) || parsedKilometers <= 0 || parsedKilometers > 150) {
             throw error(400, "Bad Request");
         }
