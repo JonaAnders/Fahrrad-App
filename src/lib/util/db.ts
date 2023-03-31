@@ -6,7 +6,7 @@ import {
 } from "mysql2/promise";
 import { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } from "$env/static/private";
 import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
-import type { db_mileage, group, mileage } from "../../types";
+import type { db_mileage, group, mileage } from "../types/types";
 
 export const dbConnect = async (): Promise<Connection> => {
     return createConnection({

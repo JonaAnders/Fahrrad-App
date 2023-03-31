@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
 
-    const defaultMessage = `Für alle anderen HTTP-Fehlercodes im Kontext des Fahrradwettrennens: "Entschuldigung, es scheint
+    const defaultMessage = `Entschuldigung, es scheint
 		einen kleinen Sturz auf unserer Strecke gegeben zu haben. Wir arbeiten hart daran, den Unfall
 		aufzuräumen und dich so schnell wie möglich wieder auf deinem Fahrrad zu sehen. Bitte versuche
 		es später erneut oder wechsle auf eine andere Strecke, während wir uns um die Reparatur kümmern.`;
@@ -50,7 +50,11 @@
 
 <style lang="scss">
     @import "../lib/styles/vars";
+    h1 {
+        align-self: start;
+    }
     p {
+        align-self: start;
         margin: $default-space * 2;
         max-width: 50rem;
         line-height: 1.5;
