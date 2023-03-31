@@ -67,11 +67,11 @@
                     cy="171.25"
                     r="72.9"
                     transform="translate(-95.71 111.45) rotate(-45)"
-                    transition:draw={{ duration: 2000 }}
+                    transition:draw|local={{ duration: 2000 }}
                 /><path
                     class="cls-4"
                     d="M166.06,171.25c0,43.84-35.54,79.39-79.39,79.39S7.29,215.09,7.29,171.25,42.83,91.86,86.67,91.86s79.39,35.54,79.39,79.38Z"
-                    transition:draw={{ duration: 2000 }}
+                    transition:draw|local={{ duration: 2000 }}
                 /></g
             ><rect class="cls-8" x="84.77" y="84.58" width="3.81" height="3.24" /><rect
                 class="cls-8"
@@ -545,70 +545,70 @@
             /><polygon
                 class="cls-8"
                 points="95.84 88.3 92.05 87.97 92.33 84.74 96.13 85.07 95.84 88.3"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="75.47" y1="100.59" x2="85.94" y2="159.96" /><line
                 class="cls-2"
                 x1="52.06"
                 y1="109.11"
                 x2="82.2"
                 y2="161.33"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="32.97" y1="125.13" x2="79.15" y2="163.88" /><line
                 class="cls-2"
                 x1="20.51"
                 y1="146.71"
                 x2="77.16"
                 y2="167.34"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="16.18" y1="171.26" x2="76.47" y2="171.26" /><line
                 class="cls-2"
                 x1="20.51"
                 y1="195.8"
                 x2="77.16"
                 y2="175.18"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="32.97" y1="217.38" x2="79.15" y2="178.63" /><line
                 class="cls-2"
                 x1="52.06"
                 y1="233.4"
                 x2="82.2"
                 y2="181.19"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="75.47" y1="241.92" x2="85.95" y2="182.55" /><line
                 class="cls-2"
                 x1="100.39"
                 y1="241.92"
                 x2="89.93"
                 y2="182.55"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="123.81" y1="233.4" x2="93.67" y2="181.19" /><line
                 class="cls-2"
                 x1="142.91"
                 y1="217.38"
                 x2="96.72"
                 y2="178.63"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="155.37" y1="195.8" x2="98.71" y2="175.17" /><line
                 class="cls-2"
                 x1="159.69"
                 y1="171.26"
                 x2="99.4"
                 y2="171.25"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="155.37" y1="146.71" x2="98.71" y2="167.33" /><line
                 class="cls-2"
                 x1="142.91"
                 y1="125.13"
                 x2="96.72"
                 y2="163.88"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="123.81" y1="109.11" x2="93.67" y2="161.32" /><line
                 class="cls-2"
                 x1="100.4"
                 y1="100.59"
                 x2="89.93"
                 y2="159.96"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /></g
         ><g id="right-wheel"
             ><g
@@ -616,11 +616,11 @@
                     ><path
                         class="cls-6"
                         d="M442.46,163.7c4.23,40.04-24.79,75.93-64.83,80.16-40.04,4.23-75.93-24.8-80.16-64.83-4.23-40.04,24.79-75.93,64.83-80.16,40.04-4.23,75.93,24.8,80.16,64.84Z"
-                        transition:draw={{ duration: 2000 }}
+                        transition:draw|local={{ duration: 2000 }}
                     /><path
                         class="cls-4"
                         d="M448.91,163.01c4.61,43.6-27,82.68-70.6,87.29-43.6,4.61-82.68-27-87.29-70.6-4.61-43.6,27-82.68,70.6-87.29,43.6-4.61,82.68,27,87.29,70.6Z"
-                        transition:draw={{ duration: 2000 }}
+                        transition:draw|local={{ duration: 2000 }}
                     /></g
                 ><rect
                     class="cls-8"
@@ -1108,7 +1108,7 @@
                 /><polygon
                     class="cls-8"
                     points="384.84 89.24 381.08 88.65 381.59 85.45 385.35 86.04 384.84 89.24"
-                    transition:draw={{ duration: 2000 }}
+                    transition:draw|local={{ duration: 2000 }}
                 /><rect
                     class="cls-8"
                     x="374.22"
@@ -1116,7 +1116,7 @@
                     width="3.24"
                     height="3.81"
                     transform="translate(263.48 455.45) rotate(-86.02)"
-                    transition:draw={{ duration: 2000 }}
+                    transition:draw|local={{ duration: 2000 }}
                 /><rect
                     class="cls-8"
                     x="366.52"
@@ -1124,131 +1124,131 @@
                     width="3.81"
                     height="3.24"
                     transform="translate(-1.47 6.53) rotate(-1.01)"
-                    transition:draw={{ duration: 2000 }}
+                    transition:draw|local={{ duration: 2000 }}
                 /></g
             ><path
                 class="cls-8"
                 d="M384.85,169.78c.87,8.22-5.09,15.59-13.31,16.46-8.22,.87-15.59-5.09-16.46-13.31-.87-8.22,5.09-15.59,13.31-16.46,8.22-.87,15.59,5.09,16.46,13.31Z"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="351.36"
                 y1="101.95"
                 x2="368.01"
                 y2="159.89"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="328.97"
                 y1="112.88"
                 x2="364.43"
                 y2="161.64"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="311.67"
                 y1="130.82"
                 x2="361.67"
                 y2="164.5"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="301.55"
                 y1="153.59"
                 x2="360.05"
                 y2="168.15"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="299.82"
                 y1="178.46"
                 x2="359.78"
                 y2="172.12"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="306.71"
                 y1="202.41"
                 x2="360.88"
                 y2="175.95"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="321.37"
                 y1="222.56"
                 x2="363.22"
                 y2="179.17"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line class="cls-2" x1="342.03" y1="236.48" x2="366.53" y2="181.39" /><line
                 class="cls-2"
                 x1="366.22"
                 y1="242.5"
                 x2="370.39"
                 y2="182.35"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="391"
                 y1="239.88"
                 x2="374.35"
                 y2="181.93"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="413.39"
                 y1="228.94"
                 x2="377.93"
                 y2="180.18"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="430.7"
                 y1="211"
                 x2="380.69"
                 y2="177.32"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="440.82"
                 y1="188.23"
                 x2="382.31"
                 y2="173.68"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="442.54"
                 y1="163.37"
                 x2="382.59"
                 y2="169.7"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="435.66"
                 y1="139.42"
                 x2="381.48"
                 y2="165.88"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="421"
                 y1="119.26"
                 x2="379.14"
                 y2="162.66"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="400.33"
                 y1="105.34"
                 x2="375.84"
                 y2="160.43"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /><line
                 class="cls-2"
                 x1="376.15"
                 y1="99.32"
                 x2="371.97"
                 y2="159.47"
-                transition:draw={{ duration: 2000 }}
+                transition:draw|local={{ duration: 2000 }}
             /></g
         ><g id="pedals"
             ><polygon

@@ -22,6 +22,30 @@ h1 {
     background: $primary-color;
     color: $light-bg;
 }
+a:any-link {
+    text-decoration: none;
+    color: $primary-color;
+    transition: color 0.3s ease-in-out;
+    position: relative;
+    &::before {
+        content: "";
+        width: 100%;
+        height: 0.2rem;
+        position: absolute;
+        background: $primary-color;
+        bottom: 0;
+        transform: scaleX(0);
+        transition: transform 0.2s ease-in-out;
+    }
+    &:hover,
+    &:active,
+    &:focus-within {
+        color: darken($bg-color, 50);
+        &::before {
+            transform: scaleX(100%);
+        }
+    }
+}
 
 input,
 button,

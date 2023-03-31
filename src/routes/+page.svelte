@@ -20,10 +20,10 @@
 <div class="summed-kilometers">Insgesamt gefahren: {data.summedKilometers} Kilometer</div>
 {#if showScoreBoard}
     <div class="scoreboard">
-        <h3 transition:slide>Scoreboard</h3>
+        <h3 transition:slide|local>Scoreboard</h3>
         <ol>
             {#each data.scoreBoard as entry}
-                <li transition:slide>{entry.name}</li>
+                <li transition:slide|local>{entry.name}</li>
             {/each}
         </ol>
     </div>
@@ -31,6 +31,9 @@
 
 <style lang="scss">
     @import "../lib/styles/vars";
+    h1 {
+        align-self: start;
+    }
     .summed-kilometers {
         margin-top: $default-space * 2;
         font-weight: bold;

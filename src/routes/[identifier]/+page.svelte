@@ -27,6 +27,52 @@
 </svelte:head>
 
 <h1>{data.groupName}</h1>
+<a href="/"
+    ><svg viewBox="0 0 24 24" class="icon" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M8 6H21"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M8 12H21"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M8 18H21"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M3 6H3.01"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M3 12H3.01"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+        <path
+            d="M3 18H3.01"
+            stroke="black"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        />
+    </svg>Zur Übersicht</a
+>
 <form
     method="post"
     use:enhance={() => {
@@ -38,7 +84,7 @@
     }}
 >
     {#if failure}
-        <div class="error" transition:fade>
+        <div class="error" transition:fade|local>
             Die Daten konnten nicht übertragen werden. Bitte versuche es später erneut.
         </div>
     {/if}
@@ -63,9 +109,9 @@
 <h3>Gefahrene Kilometer: {data.summedKilometers}km</h3>
 {#if showTable}
     <table class="scoreboard">
-        <tr transition:slide><th>Scoreboard</th></tr>
+        <tr transition:slide|local><th>Scoreboard</th></tr>
         {#each scoreboard as scoreboardEntry}
-            <tr transition:slide><td>{scoreboardEntry}km</td></tr>
+            <tr transition:slide|local><td>{scoreboardEntry}km</td></tr>
         {/each}
     </table>
 {/if}
@@ -78,13 +124,18 @@
 
 <style lang="scss">
     @import "../../lib/styles/vars";
-    :global(main) {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
     h1 {
         align-self: flex-start;
+    }
+    a {
+        display: flex;
+        white-space: nowrap;
+        align-self: start;
+        .icon {
+            width: 1rem + $default-space;
+            height: 1rem;
+            padding-right: $default-space;
+        }
     }
     form {
         display: flex;
