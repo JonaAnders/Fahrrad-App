@@ -1,7 +1,7 @@
 import type { Handle } from "@sveltejs/kit";
 import { verify } from "jsonwebtoken";
 
-import { WEB_TOKEN_SECRET, WEB_TOKEN_MAX_AGE } from "$env/static/private";
+import { WEB_TOKEN_MAX_AGE, WEB_TOKEN_SECRET } from "$env/static/private";
 import type { jwtPayLoad } from "./lib/types/types";
 
 export const handle = (async ({ event, resolve }) => {

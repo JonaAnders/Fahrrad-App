@@ -5,7 +5,7 @@ import {
 } from "$lib/util/admin";
 import { dbConnect } from "$lib/util/db";
 import { error } from "@sveltejs/kit";
-import type { PageServerLoad, Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load = (async ({ params }) => {
     const { identifier } = params;

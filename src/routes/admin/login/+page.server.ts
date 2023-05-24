@@ -1,18 +1,18 @@
-import { redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
-import { z } from "zod";
-import { needsRehash, verify } from "argon2";
 import {
     getUserByUsername,
     loggedInSuccessFully,
     rehashUserPassword,
     userFailedLogin
 } from "$lib/util/users";
+import { redirect } from "@sveltejs/kit";
+import { needsRehash, verify } from "argon2";
+import { z } from "zod";
+import type { Actions, PageServerLoad } from "./$types";
 
-import { WEB_TOKEN_SECRET, WEB_TOKEN_MAX_AGE } from "$env/static/private";
+import { WEB_TOKEN_MAX_AGE, WEB_TOKEN_SECRET } from "$env/static/private";
 
-import { sign } from "jsonwebtoken";
 import { dbConnect } from "$lib/util/db";
+import { sign } from "jsonwebtoken";
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.authorized) {

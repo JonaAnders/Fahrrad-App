@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params }) => {
         }
         throw err;
     } finally {
-        connection.end();
+        void connection.end();
     }
 };
 
@@ -51,7 +51,7 @@ export const actions: Actions = {
                 kilometers: parsedKilometers
             });
         } finally {
-            connection.end();
+            void connection.end();
         }
     }
 };
