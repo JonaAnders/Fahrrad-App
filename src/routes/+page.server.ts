@@ -9,6 +9,6 @@ export const load: PageServerLoad = async () => {
         const slicedScoreboard = scoreboard.slice(0, 10);
         return { scoreBoard: slicedScoreboard, summedKilometers };
     } finally {
-        connection.end();
+        void connection.end();
     }
 };

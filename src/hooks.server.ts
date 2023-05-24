@@ -13,11 +13,11 @@ export const handle = (async ({ event, resolve }) => {
         const payload = verify(adminCookie, WEB_TOKEN_SECRET, {
             maxAge: parseInt(WEB_TOKEN_MAX_AGE)
         }) as jwtPayLoad;
-        console.log(payload);
         event.locals.authorized = true;
         event.locals.userId = payload.userId;
         event.locals.username = payload.username;
     } catch {
+        event.locals.authorized = false;
         event.cookies.delete("admin");
     }
     return await resolve(event);

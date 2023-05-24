@@ -19,7 +19,7 @@ export const getUserByUsername = async (
         username: user.user_name,
         password: user.password,
         failedAttempts: user.failed_attempts,
-        blockedUntil: user.blocked_until
+        blockedUntil: user.blocked_until ?? new Date(0)
     };
 };
 
@@ -44,7 +44,6 @@ export const userFailedLogin = async (
     // 5 free tries, after that each failed login attempt is punished with 5 seconds (1 failed = 0s, 5 failed = 0s, 6 = 5s 7 = 10s, ...)
     const addedSeconds = Math.max(attempt - 5, 0) * 5;
     blockedUntil.setUTCSeconds(currentSeconds + addedSeconds);
-    console.log(blockedUntil);
 
     await connection.execute(
         "UPDATE users SET failed_attempts = ?, blocked_until = ? WHERE user_id = ?;",
@@ -57,7 +56,22 @@ export const loggedInSuccessFully = async (
     { userId }: { userId: number }
 ) => {
     await connection.execute(
-        "UPDATE users SET failed_attempts = 0, blocked_until = '2000-00-00 00:00:00.000000' WHERE user_id = ?;",
+        "UPDATE users SET failed_attempts = 0, blocked_until = NULL WHERE user_id = ?;",
         [userId]
     );
+};
+
+export const getAllUsers = async (connection: Connection): Promise<user[]> => {
+    const [rows] = (await connection.execute(
+        "SELECT * FROM users"
+    )) as RowDataPacket[][] as dbUser[][];
+    return rows.map((row) => {
+        return {
+            userId: row.user_id,
+            username: row.user_name,
+            password: row.password,
+            failedAttempts: row.failed_attempts,
+            blockedUntil: row.blocked_until ?? new Date(0)
+        };
+    });
 };

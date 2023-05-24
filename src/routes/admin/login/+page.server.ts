@@ -52,7 +52,10 @@ export const actions: Actions = {
 
         const result = await pattern.safeParseAsync({ username, password });
         if (!result.success) {
-            return { errors: result.error.issues.map((issue) => issue.message) };
+            return {
+                errors: result.error.issues.map((issue) => issue.message),
+                data: { username }
+            };
         }
 
         const { username: parsedUsername, password: parsedPassword } = result.data;
@@ -66,18 +69,19 @@ export const actions: Actions = {
                 "$argon2id$v=19$m=65536,t=3,p=4$xsPh1qo13IUGFTNs5LoOZA$gapvVq/vaNfYNR5dHCVxOaf50KYtdHZqkrOTW36pqvc",
                 "1234"
             );
-            connection.end();
-            return { errors: ["Falscher Nutzername oder falsches Passwort."] };
+            void connection.end();
+            return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
 
         if (user.blockedUntil.getTime() > new Date().getTime()) {
-            connection.end();
+            void connection.end();
             return {
                 errors: [
                     `Du musst noch ${Math.round(
                         (user.blockedUntil.getTime() - new Date().getTime()) / 1000
                     )} Sekunden warten, bis du erneut versuchen kannst dich anzumelden.`
-                ]
+                ],
+                data: { username }
             };
         }
 
@@ -89,12 +93,13 @@ export const actions: Actions = {
                 });
             }
             await loggedInSuccessFully(connection, { userId: user.userId });
+            void connection.end();
             cookies.set(
                 "admin",
                 sign({ userId: user.userId, username: user.username }, WEB_TOKEN_SECRET, {
                     expiresIn: parseInt(WEB_TOKEN_MAX_AGE)
                 }),
-                { maxAge: parseInt(WEB_TOKEN_MAX_AGE) }
+                { maxAge: parseInt(WEB_TOKEN_MAX_AGE), path: "/admin" }
             );
             throw redirect(302, "/admin");
         } else {
@@ -102,8 +107,8 @@ export const actions: Actions = {
                 userId: user.userId,
                 attempt: user.failedAttempts + 1
             });
-            connection.end();
-            return { errors: ["Falscher Nutzername oder falsches Passwort."] };
+            void connection.end();
+            return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
     }
 };
