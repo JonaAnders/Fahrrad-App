@@ -2,8 +2,8 @@ import { dbConnect } from "$lib/util/db";
 import { z } from "zod";
 import type { Actions } from "./$types";
 
-import { argon2id, hash } from "argon2";
 import { createUser } from "$lib/util/users";
+import { argon2id, hash } from "argon2";
 
 export const actions = {
     default: async ({ request }) => {

@@ -1,11 +1,12 @@
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from "$env/static/private";
+import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
+import crypto from "crypto";
 import {
     createConnection,
     type Connection,
     type ResultSetHeader,
     type RowDataPacket
 } from "mysql2/promise";
-import { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } from "$env/static/private";
-import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
 import type { db_mileage, group, mileage } from "../types/types";
 
 export const dbConnect = async (): Promise<Connection> => {
@@ -16,7 +17,6 @@ export const dbConnect = async (): Promise<Connection> => {
         database: DB_NAME
     });
 };
-import crypto from "crypto";
 
 export const insertMileage = async (
     connection: Connection,
