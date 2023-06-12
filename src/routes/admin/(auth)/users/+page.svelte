@@ -5,6 +5,7 @@
     export let data: PageServerData;
 </script>
 
+<svelte:head><title>Benutzer</title></svelte:head>
 <table>
     <tr><th>Nutzername</th><th>Fehlgeschlagene Anmeldeversuche</th><th>Gesperrt bis</th></tr>
     {#each data.users as user}
@@ -17,6 +18,8 @@
         >{/each}
 </table>
 
+<a href="./users/new" class="new" title="Neuen Nutzer erstellen">+</a>
+
 <style lang="scss">
     @import "../../../../lib/styles/vars";
     table {
@@ -26,6 +29,29 @@
         td {
             padding: $default-space;
             border: solid 0.2rem $primary-color;
+        }
+    }
+
+    a.new:any-link {
+        margin-top: 2rem;
+        padding: calc($default-space / 2);
+        line-height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
+        font-size: 2rem;
+        background: $primary-color;
+        color: $bg-color;
+        transition-property: color, background-color;
+        transition: 0.3s ease-in-out;
+        &:hover {
+            color: $light-bg;
+            background: lighten($primary-color, 10);
+        }
+        &::before {
+            content: unset;
         }
     }
 </style>

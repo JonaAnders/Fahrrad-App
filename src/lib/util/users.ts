@@ -56,7 +56,7 @@ export const loggedInSuccessFully = async (
     { userId }: { userId: number }
 ) => {
     await connection.execute(
-        "UPDATE users SET failed_attempts = 0, blocked_until = NULL WHERE user_id = ?;",
+        "UPDATE users SET failed_attempts = 0, blocked_until = 2000-01-01 00:00:00 WHERE user_id = ?;",
         [userId]
     );
 };
@@ -74,4 +74,14 @@ export const getAllUsers = async (connection: Connection): Promise<user[]> => {
             blockedUntil: row.blocked_until ?? new Date(0)
         };
     });
+};
+
+export const createUser = async (
+    connection: Connection,
+    { username, password }: { username: string; password: string }
+) => {
+    await connection.execute("INSERT INTO users (user_name, password) VALUES(?, ?);", [
+        username,
+        password
+    ]);
 };
