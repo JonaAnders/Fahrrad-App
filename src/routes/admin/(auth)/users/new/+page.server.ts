@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { Actions } from "./$types";
 
 import { createUser } from "$lib/util/users";
-import { argon2id, hash } from "argon2";
+import argon2 from "argon2";
 
 export const actions = {
     default: async ({ request }) => {
@@ -41,7 +41,7 @@ export const actions = {
         try {
             await createUser(conn, {
                 username: username as string,
-                password: await hash(password as string, { type: argon2id })
+                password: await argon2.hash(password as string, { type: argon2.argon2id })
             });
         } catch {
             return {

@@ -1,5 +1,5 @@
 import type { Handle } from "@sveltejs/kit";
-import { verify } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 
 import { WEB_TOKEN_MAX_AGE, WEB_TOKEN_SECRET } from "$env/static/private";
 import type { jwtPayLoad } from "./lib/types/types";
@@ -10,7 +10,7 @@ export const handle = (async ({ event, resolve }) => {
         return await resolve(event);
     }
     try {
-        const payload = verify(adminCookie, WEB_TOKEN_SECRET, {
+        const payload = jsonwebtoken.verify(adminCookie, WEB_TOKEN_SECRET, {
             maxAge: parseInt(WEB_TOKEN_MAX_AGE)
         }) as jwtPayLoad;
         event.locals.authorized = true;

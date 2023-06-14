@@ -1,4 +1,4 @@
-import { argon2id, hash } from "argon2";
+import argon2 from "argon2";
 import type { Connection, RowDataPacket } from "mysql2/promise";
 
 import type { dbUser, user } from "$lib/types/types";
@@ -27,7 +27,7 @@ export const rehashUserPassword = async (
     connection: Connection,
     { userId, password }: { userId: number; password: string }
 ) => {
-    const rehashedPassword = hash(password, { type: argon2id });
+    const rehashedPassword = argon2.hash(password, { type: argon2.argon2id });
     await connection.execute("UPDATE users SET password = ? WHERE user_id = ?;", [
         rehashedPassword,
         userId

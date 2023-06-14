@@ -12,7 +12,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { WEB_TOKEN_MAX_AGE, WEB_TOKEN_SECRET } from "$env/static/private";
 
 import { dbConnect } from "$lib/util/db";
-import { sign } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.authorized) {
@@ -96,9 +96,13 @@ export const actions: Actions = {
             void connection.end();
             cookies.set(
                 "admin",
-                sign({ userId: user.userId, username: user.username }, WEB_TOKEN_SECRET, {
-                    expiresIn: parseInt(WEB_TOKEN_MAX_AGE)
-                }),
+                jsonwebtoken.sign(
+                    { userId: user.userId, username: user.username },
+                    WEB_TOKEN_SECRET,
+                    {
+                        expiresIn: parseInt(WEB_TOKEN_MAX_AGE)
+                    }
+                ),
                 { maxAge: parseInt(WEB_TOKEN_MAX_AGE), path: "/admin" }
             );
             throw redirect(302, "/admin");
