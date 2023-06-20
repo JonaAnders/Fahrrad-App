@@ -92,7 +92,7 @@ export const addGroup = async (connection: Connection, { groupName }: { groupNam
 
 export const getSummedMileage = async (connection: Connection): Promise<number> => {
     const [rows] = (await connection.execute(
-        `SELECT SUM(kilometers) as kilometers FROM mileages;`,
+        `SELECT COALESCE(SUM(kilometers), 0) as kilometers FROM mileages;`,
         []
     )) as RowDataPacket[] as { kilometers: number }[][];
 
