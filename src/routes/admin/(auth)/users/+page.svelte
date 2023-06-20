@@ -35,6 +35,8 @@
     a.new:any-link {
         margin-top: 2rem;
         padding: calc($default-space / 2);
+        height: 2.5rem;
+        width: 2.5rem;
         line-height: 2rem;
         display: flex;
         align-items: center;
@@ -44,8 +46,8 @@
         font-size: 2rem;
         background: $primary-color;
         color: $bg-color;
-        transition-property: color, background-color;
         transition: 0.3s ease-in-out;
+        transition-property: color, background-color;
         &:hover {
             color: $light-bg;
             background: lighten($primary-color, 10);
