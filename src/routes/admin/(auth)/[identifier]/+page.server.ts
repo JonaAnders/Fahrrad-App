@@ -21,7 +21,7 @@ export const load = (async ({ params }) => {
         throw error(404);
     }
 
-    const data = await dataPromise;
+    const data = (await dataPromise).filter((d) => d.mileageId !== null);
 
     void connection.end();
 

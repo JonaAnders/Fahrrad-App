@@ -7,19 +7,24 @@
 </script>
 
 <a href="/admin">← Zurück zum Admin-Panel</a>
+
 <h2>{data.name}</h2>
-<table>
-    <tr><th>Kilometer</th><th>Datum</th><th>Löschen</th></tr>
-    {#each data.data as row}
-        <tr
-            ><td>{row.kilometers}</td><td>{formatDate(row.date)}</td><td
-                ><form method="post" use:enhance>
-                    <button name="delete" value={row.mileageId}>X</button>
-                </form></td
-            ></tr
-        >
-    {/each}
-</table>
+{#if data.data.length > 0}
+    <table>
+        <tr><th>Kilometer</th><th>Datum</th><th>Löschen</th></tr>
+        {#each data.data as row}
+            <tr
+                ><td>{row.kilometers}</td><td>{formatDate(row.date)}</td><td
+                    ><form method="post" use:enhance>
+                        <button name="delete" value={row.mileageId}>X</button>
+                    </form></td
+                ></tr
+            >
+        {/each}
+    </table>
+{:else}
+    <p class="empty">Dieses Team hat noch keine Einträge.</p>
+{/if}
 
 <style lang="scss">
     @import "../../../../lib/styles/vars";
@@ -40,5 +45,8 @@
             background: $red;
             color: white;
         }
+    }
+    .empty {
+        margin-top: $default-space;
     }
 </style>
