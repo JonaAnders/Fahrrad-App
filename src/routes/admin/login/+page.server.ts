@@ -5,7 +5,7 @@ import {
     userFailedLogin
 } from "$lib/util/users";
 import { redirect } from "@sveltejs/kit";
-import { needsRehash, verify } from "argon2";
+import argon2 from "argon2";
 import { z } from "zod";
 import type { Actions, PageServerLoad } from "./$types";
 
@@ -65,9 +65,10 @@ export const actions: Actions = {
 
         if (user === null) {
             // ? Very cheap hack to prevent timing attacks to find out usernames, could be optimized or even removed
-            await verify(
+            await argon2.verify(
                 "$argon2id$v=19$m=65536,t=3,p=4$xsPh1qo13IUGFTNs5LoOZA$gapvVq/vaNfYNR5dHCVxOaf50KYtdHZqkrOTW36pqvc",
-                "1234"
+                "1234",
+                { type: argon2.argon2id }
             );
             void connection.end();
             return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
@@ -85,8 +86,8 @@ export const actions: Actions = {
             };
         }
 
-        if (await verify(user.password, parsedPassword)) {
-            if (needsRehash(user.password)) {
+        if (await argon2.verify(user.password, parsedPassword, { type: argon2.argon2id })) {
+            if (argon2.needsRehash(user.password)) {
                 await rehashUserPassword(connection, {
                     userId: user.userId,
                     password: parsedPassword

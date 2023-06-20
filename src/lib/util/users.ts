@@ -56,7 +56,7 @@ export const loggedInSuccessFully = async (
     { userId }: { userId: number }
 ) => {
     await connection.execute(
-        "UPDATE users SET failed_attempts = 0, blocked_until = 2000-01-01 00:00:00 WHERE user_id = ?;",
+        "UPDATE users SET failed_attempts = 0, blocked_until = '2000-01-01 00:00:00' WHERE user_id = ?;",
         [userId]
     );
 };
