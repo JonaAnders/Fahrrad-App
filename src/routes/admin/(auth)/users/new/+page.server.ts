@@ -1,8 +1,8 @@
-import { dbConnect } from "$lib/util/db";
+import { dbConnect } from "$lib/server/util/db";
 import { z } from "zod";
 import type { Actions } from "./$types";
 
-import { createUser } from "$lib/util/users";
+import { createUser } from "$lib/server/util/users";
 import argon2 from "argon2";
 
 export const actions = {

@@ -1,5 +1,5 @@
-import { getInformationTable } from "$lib/util/admin";
-import { dbConnect, getSummedMileage } from "$lib/util/db";
+import { getInformationTable } from "$lib/server/util/admin";
+import { dbConnect, getSummedMileage } from "$lib/server/util/db";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals }) => {

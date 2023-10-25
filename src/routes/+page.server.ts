@@ -1,4 +1,4 @@
-import { dbConnect, getRankedGroups, getSummedMileage } from "$lib/util/db";
+import { dbConnect, getRankedGroups, getSummedMileage } from "$lib/server/util/db";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {

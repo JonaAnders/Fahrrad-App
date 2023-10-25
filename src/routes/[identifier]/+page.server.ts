@@ -1,10 +1,10 @@
-import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
+import { IdentifierNotFoundError } from "$lib/server/errors/identifierNotFoundError";
 import {
     dbConnect,
     getGroupByIdentifier,
     getMileageFromGroupId,
     insertMileage
-} from "$lib/util/db";
+} from "$lib/server/util/db";
 import { error } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 

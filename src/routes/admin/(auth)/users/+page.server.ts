@@ -1,5 +1,5 @@
-import { dbConnect } from "$lib/util/db";
-import { getAllUsers } from "$lib/util/users";
+import { dbConnect } from "$lib/server/util/db";
+import { getAllUsers } from "$lib/server/util/users";
 import type { PageServerLoad } from "../$types";
 
 export const load = (async () => {

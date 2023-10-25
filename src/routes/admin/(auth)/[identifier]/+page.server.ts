@@ -2,8 +2,8 @@ import {
     deleteMileageById,
     getGroupDataByIdentifier,
     getGroupNameByIdentifier
-} from "$lib/util/admin";
-import { dbConnect } from "$lib/util/db";
+} from "$lib/server/util/admin";
+import { dbConnect } from "$lib/server/util/db";
 import { error } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 

@@ -1,5 +1,5 @@
 import { env } from "$env/dynamic/private";
-import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
+import { IdentifierNotFoundError } from "$lib/server/errors/identifierNotFoundError";
 import crypto from "crypto";
 import {
     createConnection,
@@ -7,7 +7,7 @@ import {
     type ResultSetHeader,
     type RowDataPacket
 } from "mysql2/promise";
-import type { db_mileage, group, mileage } from "../types/types";
+import type { db_mileage, group, mileage } from "../../types/types";
 
 const { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } = env;
 

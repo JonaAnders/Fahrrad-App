@@ -3,7 +3,7 @@ import {
     loggedInSuccessFully,
     rehashUserPassword,
     userFailedLogin
-} from "$lib/util/users";
+} from "$lib/server/util/users";
 import { redirect } from "@sveltejs/kit";
 import argon2 from "argon2";
 import { z } from "zod";
@@ -11,7 +11,7 @@ import type { Actions, PageServerLoad } from "./$types";
 
 import { WEB_TOKEN_MAX_AGE, WEB_TOKEN_SECRET } from "$env/static/private";
 
-import { dbConnect } from "$lib/util/db";
+import { dbConnect } from "$lib/server/util/db";
 import jsonwebtoken from "jsonwebtoken";
 
 export const load: PageServerLoad = async ({ locals }) => {
