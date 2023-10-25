@@ -84,7 +84,7 @@
     }}
 >
     {#if failure}
-        <div class="error" transition:fade|local>
+        <div class="error" transition:fade>
             Die Daten konnten nicht übertragen werden. Bitte versuche es später erneut.
         </div>
     {/if}
@@ -109,9 +109,9 @@
 <h3>Gefahrene Kilometer: {data.summedKilometers}km</h3>
 {#if showTable}
     <table class="scoreboard">
-        <tr transition:slide|local><th>Scoreboard</th></tr>
+        <tr transition:slide><th>Scoreboard</th></tr>
         {#each scoreboard as scoreboardEntry}
-            <tr transition:slide|local><td>{scoreboardEntry}km</td></tr>
+            <tr transition:slide><td>{scoreboardEntry}km</td></tr>
         {/each}
     </table>
 {/if}

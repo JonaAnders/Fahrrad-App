@@ -20,10 +20,10 @@
 <div class="summed-kilometers">Insgesamt gefahren: {data.summedKilometers} Kilometer</div>
 {#if showScoreBoard}
     <div class="scoreboard">
-        <h3 transition:slide|local>Scoreboard</h3>
+        <h3 transition:slide>Scoreboard</h3>
         <ol>
             {#each data.scoreBoard as entry}
-                <li transition:slide|local>{entry.name}</li>
+                <li transition:slide>{entry.name}</li>
             {/each}
         </ol>
     </div>
