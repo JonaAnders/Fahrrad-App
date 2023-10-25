@@ -1,4 +1,4 @@
-import { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { IdentifierNotFoundError } from "$lib/errors/identifierNotFoundError";
 import crypto from "crypto";
 import {
@@ -8,6 +8,12 @@ import {
     type RowDataPacket
 } from "mysql2/promise";
 import type { db_mileage, group, mileage } from "../types/types";
+
+const { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } = env;
+
+if (([DB_HOST, DB_NAME, DB_PASSWORD, DB_USER] as (string | undefined)[]).includes(undefined)) {
+    throw new Error("One of the environment variables wasn't set!");
+}
 
 export const dbConnect = async (): Promise<Connection> => {
     return createConnection({
