@@ -1,4 +1,5 @@
 import { dbConnect, getRankedGroups, getSummedMileage } from "$lib/util/db";
+import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
