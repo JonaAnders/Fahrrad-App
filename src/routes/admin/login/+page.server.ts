@@ -68,6 +68,7 @@ export const actions: Actions = {
             return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
 
+        //? prevent brute force attacks by creating delay
         if (user.blockedUntil.getTime() > new Date().getTime()) {
             void connection.end();
             return {
@@ -80,6 +81,7 @@ export const actions: Actions = {
             };
         }
 
+        //? verify password
         if (await argon2.verify(user.password, parsedPassword, { type: argon2.argon2id })) {
             if (argon2.needsRehash(user.password)) {
                 await rehashUserPassword(connection, {
