@@ -64,12 +64,6 @@ export const actions: Actions = {
         const user = await getUserByUsername(connection, { username: parsedUsername });
 
         if (user === null) {
-            // ? Very cheap hack to prevent timing attacks to find out usernames, could be optimized or even removed
-            await argon2.verify(
-                "$argon2id$v=19$m=65536,t=3,p=4$xsPh1qo13IUGFTNs5LoOZA$gapvVq/vaNfYNR5dHCVxOaf50KYtdHZqkrOTW36pqvc",
-                "1234",
-                { type: argon2.argon2id }
-            );
             void connection.end();
             return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
