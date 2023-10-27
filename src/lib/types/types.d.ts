@@ -1,4 +1,5 @@
 export type db_mileage = {
+    date: number;
     mileage_id: number;
     group_id: number;
     kilometers: number;
@@ -10,6 +11,7 @@ export type db_group = {
 };
 export type mileage = {
     mileageId: number;
+    date: Date;
     groupId: number;
     kilometers: number;
 };
@@ -23,7 +25,7 @@ export type dbUser = {
     user_name: string;
     password: string;
     failed_attempts: number;
-    blocked_until: Date;
+    blocked_until: number;
 };
 export type user = {
     userId: number;

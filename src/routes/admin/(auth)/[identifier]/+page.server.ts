@@ -10,20 +10,20 @@ import type { Actions, PageServerLoad } from "./$types";
 export const load = (async ({ params }) => {
     const { identifier } = params;
 
-    const connection = await dbConnect();
+    const db = dbConnect();
     const [namePromise, dataPromise] = [
-        getGroupNameByIdentifier(connection, { identifier }),
-        getGroupDataByIdentifier(connection, { identifier })
+        getGroupNameByIdentifier(db, { identifier }),
+        getGroupDataByIdentifier(db, { identifier })
     ];
 
-    const name = await namePromise;
+    const name = namePromise;
     if (name === null) {
         throw error(404);
     }
 
-    const data = (await dataPromise).filter((d) => d.mileageId !== null);
+    const data = dataPromise.filter((d) => d.mileageId !== null);
 
-    void connection.end();
+    db.close();
 
     return { name, data };
 }) satisfies PageServerLoad;
@@ -41,9 +41,9 @@ export const actions = {
         if (isNaN(parsedMileageId)) {
             throw error(400);
         }
-        const connection = await dbConnect();
+        const db = dbConnect();
 
-        await deleteMileageById(connection, { mileageId: parsedMileageId });
-        void connection.end();
+        deleteMileageById(db, { mileageId: parsedMileageId });
+        db.close();
     }
 } satisfies Actions;

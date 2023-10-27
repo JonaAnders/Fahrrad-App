@@ -1,106 +1,87 @@
-import { env } from "$env/dynamic/private";
+import DatabaseConstructor, { type Database } from "better-sqlite3";
+import { DB_PATH } from "$env/static/private";
 import { IdentifierNotFoundError } from "$lib/server/errors/identifierNotFoundError";
 import crypto from "crypto";
-import {
-    createConnection,
-    type Connection,
-    type ResultSetHeader,
-    type RowDataPacket
-} from "mysql2/promise";
-import type { db_mileage, group, mileage } from "../../types/types";
+import type { db_group, db_mileage, group, mileage } from "../../types/types";
 
-const { DB_HOST, DB_NAME, DB_PASSWORD, DB_USER } = env;
-
-if (([DB_HOST, DB_NAME, DB_PASSWORD, DB_USER] as (string | undefined)[]).includes(undefined)) {
-    throw new Error("One of the environment variables wasn't set!");
-}
-
-export const dbConnect = async (): Promise<Connection> => {
-    return createConnection({
-        host: DB_HOST,
-        user: DB_USER,
-        password: DB_PASSWORD,
-        database: DB_NAME
-    });
+export const dbConnect = (): Database => {
+    const db = new DatabaseConstructor(DB_PATH, { fileMustExist: false });
+    db.pragma("journal_mode = WAL");
+    return db;
 };
 
-export const insertMileage = async (
-    connection: Connection,
+export const insertMileage = (
+    db: Database,
     { groupId, kilometers }: { groupId: number; kilometers: number }
-): Promise<number> => {
-    const date = new Date().toISOString().slice(0, 19).replace("T", " ");
-    const id = (
-        (await connection.execute(
-            "INSERT INTO mileages (group_id, date, kilometers) VALUES(?, ?, ?);",
-            [groupId, date, kilometers]
-        )) as ResultSetHeader[]
-    )[0].insertId;
-    return id;
+): number => {
+    // get date as seconds since 1970-01-01 00:00:00 UTC
+    const date = Math.floor(new Date().getTime() / 1000);
+    const id = db
+        .prepare("INSERT INTO mileages (date, kilometers, group_id) VALUES(?, ?, ?);")
+        .run(date, kilometers, groupId).lastInsertRowid;
+    return Number(id);
 };
 
-export const getGroupByIdentifier = async (
-    connection: Connection,
+export const getGroupByIdentifier = (
+    db: Database,
     { identifier }: { identifier: string }
-): Promise<group> => {
-    const [rows] = (await connection.execute("SELECT * FROM groups WHERE identifier = ?;", [
-        identifier
-    ])) as RowDataPacket[];
+): group => {
+    const row = db
+        .prepare("SELECT * FROM groups WHERE identifier = ?;")
+        .get(identifier) as db_group;
 
-    if (rows.length === 0) {
+    if (row === undefined) {
         throw new IdentifierNotFoundError();
     }
     return {
-        groupId: rows[0].group_id,
-        name: rows[0].name,
-        identifier: rows[0].identifier
+        groupId: row.group_id,
+        name: row.name,
+        identifier: row.identifier
     };
 };
 
-export const getMileageFromGroupId = async (
-    connection: Connection,
+export const getMileageFromGroupId = (
+    db: Database,
     { groupId }: { groupId: number }
-): Promise<mileage[]> => {
-    const [rows] = (await connection.execute(
-        "SELECT * FROM mileages WHERE group_id = ? ORDER BY date DESC;",
-        [groupId]
-    )) as RowDataPacket[];
+): mileage[] => {
+    const rows = db
+        .prepare("SELECT * FROM mileages WHERE group_id = ? ORDER BY date DESC;")
+        .all(groupId) as db_mileage[];
 
-    return rows.map((row: db_mileage) => {
+    return rows.map((row) => {
         return {
             mileageId: row.mileage_id,
+            date: new Date(row.date * 1000),
             groupId: row.group_id,
             kilometers: row.kilometers
         };
     });
 };
 
-export const getRankedGroups = async (connection: Connection): Promise<{ name: string }[]> => {
-    const [rows] = (await connection.execute(
-        `SELECT groups.name
-        FROM groups
-        LEFT JOIN mileages ON groups.group_id = mileages.group_id
-        GROUP BY groups.group_id, groups.name
-        ORDER BY SUM(COALESCE(mileages.kilometers, 0)) DESC, groups.name ASC;`,
-        []
-    )) as RowDataPacket[] as { name: string }[][];
+export const getRankedGroups = (db: Database): { name: string }[] => {
+    const rows = db
+        .prepare(
+            `SELECT groups.name
+            FROM groups
+            LEFT JOIN mileages ON groups.group_id = mileages.group_id
+            GROUP BY groups.group_id, groups.name
+            ORDER BY SUM(COALESCE(mileages.kilometers, 0)) DESC, groups.name ASC;`
+        )
+        .all() as { name: string }[];
 
     return rows;
 };
 
-export const addGroup = async (connection: Connection, { groupName }: { groupName: string }) => {
+export const addGroup = (db: Database, { groupName }: { groupName: string }): void => {
     const identifier = crypto.randomBytes(20).toString("hex");
 
-    await connection.execute("INSERT INTO groups (name, identifier) VALUES (?, ?)", [
-        groupName,
-        identifier
-    ]);
+    db.prepare("INSERT INTO groups (name, identifier) VALUES (?, ?);").run(groupName, identifier);
 };
 
-export const getSummedMileage = async (connection: Connection): Promise<number> => {
-    const [rows] = (await connection.execute(
-        `SELECT COALESCE(SUM(kilometers), 0) as kilometers FROM mileages;`,
-        []
-    )) as RowDataPacket[] as { kilometers: number }[][];
+export const getSummedMileage = (db: Database): number => {
+    const row = db
+        .prepare("SELECT COALESCE(SUM(kilometers), 0) as kilometers FROM mileages;")
+        .get() as { kilometers: number };
 
-    return rows[0].kilometers;
+    return row.kilometers;
 };

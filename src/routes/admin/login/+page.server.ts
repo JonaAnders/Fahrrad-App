@@ -50,7 +50,7 @@ export const actions: Actions = {
                 .trim()
         });
 
-        const result = await pattern.safeParseAsync({ username, password });
+        const result = pattern.safeParse({ username, password });
         if (!result.success) {
             return {
                 errors: result.error.issues.map((issue) => issue.message),
@@ -60,21 +60,23 @@ export const actions: Actions = {
 
         const { username: parsedUsername, password: parsedPassword } = result.data;
 
-        const connection = await dbConnect();
-        const user = await getUserByUsername(connection, { username: parsedUsername });
+        const db = dbConnect();
+        const user = getUserByUsername(db, { username: parsedUsername });
 
         if (user === null) {
-            void connection.end();
+            db.close();
             return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
 
+        const millisecondsNow = new Date().getTime();
+        const blockedMilliseconds = user.blockedUntil.getTime();
         //? prevent brute force attacks by creating delay
-        if (user.blockedUntil.getTime() > new Date().getTime()) {
-            void connection.end();
+        if (blockedMilliseconds > millisecondsNow) {
+            db.close();
             return {
                 errors: [
                     `Du musst noch ${Math.round(
-                        (user.blockedUntil.getTime() - new Date().getTime()) / 1000
+                        (blockedMilliseconds - millisecondsNow) / 1000
                     )} Sekunden warten, bis du erneut versuchen kannst dich anzumelden.`
                 ],
                 data: { username }
@@ -84,13 +86,13 @@ export const actions: Actions = {
         //? verify password
         if (await argon2.verify(user.password, parsedPassword, { type: argon2.argon2id })) {
             if (argon2.needsRehash(user.password)) {
-                await rehashUserPassword(connection, {
+                rehashUserPassword(db, {
                     userId: user.userId,
                     password: parsedPassword
                 });
             }
-            await loggedInSuccessFully(connection, { userId: user.userId });
-            void connection.end();
+            loggedInSuccessFully(db, { userId: user.userId });
+            db.close();
             cookies.set(
                 "admin",
                 jsonwebtoken.sign(
@@ -104,11 +106,11 @@ export const actions: Actions = {
             );
             throw redirect(302, "/admin");
         } else {
-            await userFailedLogin(connection, {
+            userFailedLogin(db, {
                 userId: user.userId,
                 attempt: user.failedAttempts + 1
             });
-            void connection.end();
+            db.close();
             return { errors: ["Falscher Nutzername oder falsches Passwort."], data: { username } };
         }
     }

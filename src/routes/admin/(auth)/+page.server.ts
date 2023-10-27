@@ -3,10 +3,10 @@ import { dbConnect, getSummedMileage } from "$lib/server/util/db";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals }) => {
-    const connection = await dbConnect();
-    const tableInformation = await getInformationTable(connection);
-    const summedKilometers = await getSummedMileage(connection);
-    void connection.end();
+    const db = dbConnect();
+    const tableInformation = getInformationTable(db);
+    const summedKilometers = getSummedMileage(db);
+    db.close();
 
     const username = locals.username;
 

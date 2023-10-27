@@ -29,7 +29,7 @@ export const actions = {
                 .trim()
         });
 
-        const result = await pattern.safeParseAsync({ username, password });
+        const result = pattern.safeParse({ username, password });
         if (!result.success) {
             return {
                 errors: result.error.issues.map((issue) => issue.message),
@@ -37,9 +37,9 @@ export const actions = {
             };
         }
 
-        const conn = await dbConnect();
+        const conn = dbConnect();
         try {
-            await createUser(conn, {
+            createUser(conn, {
                 username: username as string,
                 password: await argon2.hash(password as string, { type: argon2.argon2id })
             });
@@ -51,7 +51,7 @@ export const actions = {
                 data: { username: username as string }
             };
         }
-        void conn.end();
+        conn.close();
         return { success: "Benutzer erfolgreich erstellt", data: {} };
     }
 } satisfies Actions;

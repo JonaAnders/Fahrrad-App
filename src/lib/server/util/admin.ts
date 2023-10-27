@@ -1,63 +1,73 @@
-import type { Connection, RowDataPacket } from "mysql2/promise";
+import type { group, mileage } from "$lib/types/types";
+import type { Database } from "better-sqlite3";
 
-export const getInformationTable = async (connection: Connection) => {
-    const [rows] = (await connection.execute(`SELECT groups.name,
-        groups.identifier,
-        SUM(COALESCE(mileages.kilometers, 0)) as kilometers,
-        COUNT(mileages.mileage_id) as mileageCount
-        FROM groups
-        LEFT JOIN mileages ON groups.group_id = mileages.group_id
-        GROUP BY groups.group_id, groups.name
-        ORDER BY kilometers DESC, groups.name ASC;`)) as RowDataPacket[] as {
+export const getInformationTable = (
+    db: Database
+): Omit<group & mileage & { mileageCount: number }, "groupId" | "mileageId" | "date">[] => {
+    const rows = db
+        .prepare(
+            `SELECT groups.name,
+            groups.identifier,
+            SUM(COALESCE(mileages.kilometers, 0)) as kilometers,
+            COUNT(mileages.mileage_id) as mileageCount
+            FROM groups
+            LEFT JOIN mileages ON groups.group_id = mileages.group_id
+            GROUP BY groups.group_id, groups.name
+            ORDER BY kilometers DESC, groups.name ASC;`
+        )
+        .all() as {
         name: string;
         identifier: string;
         kilometers: number;
         mileageCount: number;
-    }[][];
+    }[];
     return rows;
 };
 
-export const getGroupNameByIdentifier = async (
-    connection: Connection,
+export const getGroupNameByIdentifier = (
+    db: Database,
     { identifier }: { identifier: string }
-): Promise<string | null> => {
-    const [rows] = (await connection.execute(
-        `SELECT name FROM groups WHERE groups.identifier = ?;`,
-        [identifier]
-    )) as RowDataPacket[] as {
+): string | null => {
+    const row = db
+        .prepare("SELECT name FROM groups WHERE groups.identifier = ?;")
+        .get(identifier) as {
         name: string;
-    }[][];
-    if (rows.length === 0) {
+    };
+
+    if (row === undefined) {
         return null;
     }
-    return rows[0].name;
+    return row.name;
 };
 
-export const getGroupDataByIdentifier = async (
-    connection: Connection,
+export const getGroupDataByIdentifier = (
+    db: Database,
     { identifier }: { identifier: string }
-): Promise<{ mileageId: number; kilometers: number; date: Date }[]> => {
-    const [rows] = (await connection.execute(
-        `SELECT mileages.mileage_id,
-        mileages.kilometers,
-        mileages.date
-        FROM groups
-        LEFT JOIN mileages ON groups.group_id = mileages.group_id WHERE groups.identifier = ?
-        ORDER BY mileages.date DESC, mileages.kilometers ASC;`,
-        [identifier]
-    )) as RowDataPacket[] as {
+): Omit<mileage, "groupId">[] => {
+    const rows = db
+        .prepare(
+            `SELECT mileages.mileage_id,
+            mileages.kilometers,
+            mileages.date
+            FROM groups
+            LEFT JOIN mileages ON groups.group_id = mileages.group_id WHERE groups.identifier = ?
+            ORDER BY mileages.date DESC, mileages.kilometers ASC;`
+        )
+        .all(identifier) as {
         mileage_id: number;
         kilometers: number;
-        date: Date;
-    }[][];
+        date: number;
+    }[];
     return rows.map((row) => {
-        return { mileageId: row.mileage_id, kilometers: row.kilometers, date: row.date };
+        return {
+            mileageId: row.mileage_id,
+            kilometers: row.kilometers,
+            // convert date from seconds to Date
+            date: new Date(row.date * 1000)
+        };
     });
 };
 
-export const deleteMileageById = async (
-    connection: Connection,
-    { mileageId }: { mileageId: number }
-) => {
-    await connection.execute("DELETE FROM mileages WHERE mileage_id = ?;", [mileageId]);
+export const deleteMileageById = (db: Database, { mileageId }: { mileageId: number }): void => {
+    db.prepare("DELETE FROM mileages WHERE mileage_id = ?;").run(mileageId);
 };

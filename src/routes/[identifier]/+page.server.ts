@@ -10,10 +10,10 @@ import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
     const identifier = params.identifier;
-    const connection = await dbConnect();
+    const db = dbConnect();
     try {
-        const group = await getGroupByIdentifier(connection, { identifier });
-        const groupMilages = await getMileageFromGroupId(connection, { groupId: group.groupId });
+        const group = getGroupByIdentifier(db, { identifier });
+        const groupMilages = getMileageFromGroupId(db, { groupId: group.groupId });
         const groupScoreboard = groupMilages.slice(0, 10).map((milage) => {
             return milage.kilometers;
         });
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ params }) => {
         }
         throw err;
     } finally {
-        void connection.end();
+        db.close();
     }
 };
 
@@ -43,15 +43,15 @@ export const actions: Actions = {
             throw error(400, "Bad Request");
         }
         const identifier = params.identifier;
-        const connection = await dbConnect();
+        const db = dbConnect();
         try {
-            const group = await getGroupByIdentifier(connection, { identifier });
-            await insertMileage(connection, {
+            const group = getGroupByIdentifier(db, { identifier });
+            insertMileage(db, {
                 groupId: group.groupId,
                 kilometers: parsedKilometers
             });
         } finally {
-            void connection.end();
+            db.close();
         }
     }
 };
