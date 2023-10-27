@@ -4,6 +4,10 @@
     export let data: PageServerData;
 </script>
 
+<svelte:head>
+    <title>Admin Panel</title>
+</svelte:head>
+
 <h2>Hallo, {data.username}</h2>
 
 <a href="/admin/users" class="user-management"
