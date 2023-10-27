@@ -1,6 +1,6 @@
 ## Developing
 
-1. Make a work copy of by copying `/db/data-blank.db` to `/db/data.db`
+1. Create a working copy of the database by copying `/db/data-blank.db` to `/db/data.db`
 2. Install dependencies with `npm install` (or `pnpm install` or `yarn`) and start a development server:
 
     ```bash
