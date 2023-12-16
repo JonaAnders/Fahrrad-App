@@ -21,11 +21,11 @@ export const getUserByUsername = (
     };
 };
 
-export const rehashUserPassword = (
+export const rehashUserPassword = async (
     db: Database,
     { userId, password }: { userId: number; password: string }
-): void => {
-    const rehashedPassword = argon2.hash(password, { type: argon2.argon2id });
+): Promise<void> => {
+    const rehashedPassword = await argon2.hash(password, { type: argon2.argon2id });
     db.prepare("UPDATE users SET password = ? WHERE user_id = ?;").run(rehashedPassword, userId);
 };
 

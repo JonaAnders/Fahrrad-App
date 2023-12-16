@@ -86,7 +86,7 @@ export const actions: Actions = {
         //? verify password
         if (await argon2.verify(user.password, parsedPassword, { type: argon2.argon2id })) {
             if (argon2.needsRehash(user.password)) {
-                rehashUserPassword(db, {
+                await rehashUserPassword(db, {
                     userId: user.userId,
                     password: parsedPassword
                 });
