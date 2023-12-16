@@ -23,7 +23,7 @@ export const load: PageServerLoad = async ({ params }) => {
         return { groupScoreboard, summedKilometers, groupName: group.name };
     } catch (err) {
         if (err instanceof IdentifierNotFoundError) {
-            throw error(404, "Not Found");
+            error(404, "Not Found");
         }
         throw err;
     } finally {
@@ -36,11 +36,11 @@ export const actions: Actions = {
         const formData = await request.formData();
         const kilometers = formData.get("kilometers") as string | null;
         if (kilometers === null) {
-            throw error(400, "Bad Request");
+            error(400, "Bad Request");
         }
         const parsedKilometers = Math.round(parseFloat(kilometers) * 100) / 100;
         if (isNaN(parsedKilometers) || parsedKilometers <= 0 || parsedKilometers > 150) {
-            throw error(400, "Bad Request");
+            error(400, "Bad Request");
         }
         const identifier = params.identifier;
         const db = dbConnect();

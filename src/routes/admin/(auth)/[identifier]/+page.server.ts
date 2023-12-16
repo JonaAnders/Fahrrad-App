@@ -18,7 +18,7 @@ export const load = (async ({ params }) => {
 
     const name = namePromise;
     if (name === null) {
-        throw error(404);
+        error(404);
     }
 
     const data = dataPromise.filter((d) => d.mileageId !== null);
@@ -34,12 +34,12 @@ export const actions = {
 
         const mileageId = formData.get("delete");
         if (mileageId === null || mileageId instanceof File) {
-            throw error(400);
+            error(400);
         }
 
         const parsedMileageId = parseInt(mileageId);
         if (isNaN(parsedMileageId)) {
-            throw error(400);
+            error(400);
         }
         const db = dbConnect();
 

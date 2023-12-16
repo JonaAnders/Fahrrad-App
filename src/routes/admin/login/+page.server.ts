@@ -16,14 +16,14 @@ import jsonwebtoken from "jsonwebtoken";
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.authorized) {
-        throw redirect(307, "/admin");
+        redirect(307, "/admin");
     }
 };
 
 export const actions: Actions = {
     default: async ({ locals, request, cookies }) => {
         if (locals.authorized) {
-            throw redirect(307, "/admin");
+            redirect(307, "/admin");
         }
 
         const body = await request.formData();
@@ -104,7 +104,7 @@ export const actions: Actions = {
                 ),
                 { maxAge: parseInt(WEB_TOKEN_MAX_AGE), path: "/admin" }
             );
-            throw redirect(302, "/admin");
+            redirect(302, "/admin");
         } else {
             userFailedLogin(db, {
                 userId: user.userId,
