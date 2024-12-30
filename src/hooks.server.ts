@@ -18,7 +18,7 @@ export const handle = (async ({ event, resolve }) => {
         event.locals.username = payload.username;
     } catch {
         event.locals.authorized = false;
-        event.cookies.delete("admin", { path: "/admin" });
+        event.cookies.delete("admin", { path: "/" });
     }
     return await resolve(event);
 }) satisfies Handle;

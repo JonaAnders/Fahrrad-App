@@ -3,9 +3,13 @@
     import { slide } from "svelte/transition";
     import type { PageServerData } from "./$types";
 
-    export let data: PageServerData;
+    interface Props {
+        data: PageServerData;
+    }
 
-    let showScoreBoard = false;
+    let { data }: Props = $props();
+
+    let showScoreBoard = $state(false);
 
     onMount(() => {
         showScoreBoard = true;
@@ -30,29 +34,29 @@
 {/if}
 
 <style lang="scss">
-    @import "../lib/styles/vars";
+    @use "../lib/styles/vars";
     h1 {
         align-self: start;
     }
     .summed-kilometers {
-        margin-top: $default-space * 2;
+        margin-top: vars.$default-space * 2;
         font-weight: bold;
         font-size: 1.5rem;
         text-align: center;
     }
     .scoreboard {
         width: 33%;
-        margin: $default-space * 4 auto 0;
-        background: $bg-color;
-        border-radius: $default-space;
-        border: solid 0.2rem $primary-color;
+        margin: vars.$default-space * 4 auto 0;
+        background: vars.$bg-color;
+        border-radius: vars.$default-space;
+        border: solid 0.2rem vars.$primary-color;
         h3 {
             text-align: center;
         }
         ol {
             width: 100%;
             list-style-position: inside;
-            margin: $default-space;
+            margin: vars.$default-space;
         }
         li {
             line-height: 1.5;

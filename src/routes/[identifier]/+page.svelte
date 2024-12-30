@@ -5,20 +5,24 @@
     import { fade, slide } from "svelte/transition";
     import type { PageServerData } from "./$types";
 
-    export let data: PageServerData;
+    interface Props {
+        data: PageServerData;
+    }
 
-    $: scoreboard = [...data.groupScoreboard].concat(
-        new Array(10 - data.groupScoreboard.length).fill(0)
+    let { data }: Props = $props();
+
+    let scoreboard = $derived(
+        [...data.groupScoreboard].concat(new Array(10 - data.groupScoreboard.length).fill(0))
     );
 
-    let showBicycle = false;
-    let showTable = false;
+    let showBicycle = $state(false);
+    let showTable = $state(false);
     onMount(() => {
         showBicycle = true;
         showTable = true;
     });
 
-    let loading = false;
+    let loading = $state(false);
     let failure = false;
 </script>
 
@@ -109,10 +113,14 @@
 <h3>Gefahrene Kilometer: {data.summedKilometers}km</h3>
 {#if showTable}
     <table class="scoreboard">
-        <tr transition:slide><th>Scoreboard</th></tr>
-        {#each scoreboard as scoreboardEntry}
-            <tr transition:slide><td>{scoreboardEntry}km</td></tr>
-        {/each}
+        <thead>
+            <tr transition:slide><th>Scoreboard</th></tr>
+        </thead>
+        <tbody>
+            {#each scoreboard as scoreboardEntry}
+                <tr transition:slide><td>{scoreboardEntry}km</td></tr>
+            {/each}
+        </tbody>
     </table>
 {/if}
 
@@ -123,7 +131,7 @@
 {/if}
 
 <style lang="scss">
-    @import "../../lib/styles/vars";
+    @use "../../lib/styles/vars";
     h1 {
         align-self: flex-start;
     }
@@ -132,9 +140,9 @@
         white-space: nowrap;
         align-self: start;
         .icon {
-            width: 1rem + $default-space;
+            width: 1rem + vars.$default-space;
             height: 1rem;
-            padding-right: $default-space;
+            padding-right: vars.$default-space;
         }
     }
     form {
@@ -154,26 +162,26 @@
                 content: "km";
                 position: absolute;
                 top: 0;
-                right: $default-space;
+                right: vars.$default-space;
                 transform: translateY(50%);
             }
         }
         button {
-            background: $primary-color;
-            color: $light-bg;
+            background: vars.$primary-color;
+            color: vars.$light-bg;
         }
     }
     h3 {
-        margin-top: $default-space * 4;
+        margin-top: vars.$default-space * 4;
         text-align: center;
     }
     .scoreboard {
         min-width: 33%;
         max-width: 90%;
-        margin: $default-space * 2 auto 0;
-        background: $bg-color;
-        border-radius: $default-space;
-        border: solid 0.2rem $primary-color;
+        margin: vars.$default-space * 2 auto 0;
+        background: vars.$bg-color;
+        border-radius: vars.$default-space;
+        border: solid 0.2rem vars.$primary-color;
         tr {
             display: flex;
             width: 100%;
@@ -183,13 +191,13 @@
         }
         td {
             line-height: 1.5;
-            padding: 0 $default-space;
+            padding: 0 vars.$default-space;
             display: flex;
         }
         td {
             display: flex;
             width: 100%;
-            padding: 0 $default-space;
+            padding: 0 vars.$default-space;
             line-height: 1.5;
             text-align: right;
             &::before {

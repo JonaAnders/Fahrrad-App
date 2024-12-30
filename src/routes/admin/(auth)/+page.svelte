@@ -1,7 +1,11 @@
 <script lang="ts">
     import type { PageServerData } from "./$types";
 
-    export let data: PageServerData;
+    interface Props {
+        data: PageServerData;
+    }
+
+    let { data }: Props = $props();
 </script>
 
 <svelte:head>
@@ -29,68 +33,80 @@
     </svg>
 </a>
 <table>
-    <tr>
-        <th>Platz</th>
-        <th>Gruppe</th>
-        <th>Kilometer</th>
-        <th>Anzahl der Einträge</th>
-        <th>Link</th>
-        <th>Team Übersicht</th>
-    </tr>
-    {#each data.tableInformation as row, i}
-        <tr
-            ><td>{i + 1}</td><td>{row.name}</td><td>{row.kilometers}</td><td>{row.mileageCount}</td
-            ><td><a href="/{row.identifier}">{row.identifier}</a></td><td
-                ><a href="/admin/{row.identifier}" class="link-icon-wrapper"
-                    ><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11"
-                            stroke="black"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                        <path
-                            d="M15 3H21V9"
-                            stroke="black"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                        <path
-                            d="M10 14L21 3"
-                            stroke="black"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
-                    </svg>
-                </a></td
-            ></tr
-        >
-    {/each}
+    <thead>
+        <tr>
+            <th>Platz</th>
+            <th>Gruppe</th>
+            <th>Kilometer</th>
+            <th>Anzahl der Einträge</th>
+            <th>Link</th>
+            <th>Team Übersicht</th>
+        </tr>
+    </thead>
+    <tbody>
+        {#each data.tableInformation as row, i}
+            <tr>
+                <td>{i + 1}</td>
+                <td>{row.name}</td>
+                <td>{row.kilometers}</td>
+                <td>{row.mileageCount}</td>
+                <td><a href="/{row.identifier}">{row.identifier}</a></td>
+                <td>
+                    <a
+                        href="/admin/{row.identifier}"
+                        class="link-icon-wrapper"
+                        aria-label="Team Übersicht"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11"
+                                stroke="black"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M15 3H21V9"
+                                stroke="black"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M10 14L21 3"
+                                stroke="black"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+        {/each}
+    </tbody>
 </table>
 
 <style lang="scss">
-    @import "$lib/styles/vars";
+    @use "$lib/styles/vars";
     .user-management {
         align-self: center;
         display: flex;
         white-space: nowrap;
-        margin: $default-space;
+        margin: vars.$default-space;
         svg {
-            width: 1rem + $default-space;
+            width: 1rem + vars.$default-space;
             height: 1rem;
-            padding-left: calc($default-space / 2);
+            padding-left: calc(vars.$default-space / 2);
         }
     }
     table {
         border-collapse: collapse;
-        margin-top: $default-space;
+        margin-top: vars.$default-space;
         th,
         td {
-            padding: $default-space;
-            border: solid 0.2rem $primary-color;
+            padding: vars.$default-space;
+            border: solid 0.2rem vars.$primary-color;
         }
     }
     .link-icon-wrapper {

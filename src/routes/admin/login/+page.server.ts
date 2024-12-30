@@ -84,7 +84,7 @@ export const actions: Actions = {
         }
 
         //? verify password
-        if (await argon2.verify(user.password, parsedPassword, { type: argon2.argon2id })) {
+        if (await argon2.verify(user.password, parsedPassword)) {
             if (argon2.needsRehash(user.password)) {
                 await rehashUserPassword(db, {
                     userId: user.userId,
@@ -102,7 +102,7 @@ export const actions: Actions = {
                         expiresIn: parseInt(WEB_TOKEN_MAX_AGE)
                     }
                 ),
-                { maxAge: parseInt(WEB_TOKEN_MAX_AGE), path: "/admin" }
+                { maxAge: parseInt(WEB_TOKEN_MAX_AGE), path: "/" }
             );
             redirect(302, "/admin");
         } else {

@@ -1,5 +1,6 @@
-@import "vars";
-@import "fonts";
+@use "vars";
+@use "fonts";
+@use "sass:color";
 * {
     margin: 0;
     padding: 0;
@@ -10,21 +11,21 @@ body {
     font-family: "Montserrat", Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
-    background: $bg-color;
+    background: vars.$bg-color;
 }
 h1 {
     max-width: 90%;
     display: inline-block;
-    padding: $default-space 3rem $default-space $default-space;
-    margin: $default-space * 2 0 $default-space * 2;
+    padding: vars.$default-space 3rem vars.$default-space vars.$default-space;
+    margin: vars.$default-space * 2 0 vars.$default-space * 2;
     border-top-right-radius: 100vw;
     border-bottom-right-radius: 100vw;
-    background: $primary-color;
-    color: $light-bg;
+    background: vars.$primary-color;
+    color: vars.$light-bg;
 }
 a:any-link {
     text-decoration: none;
-    color: $primary-color;
+    color: vars.$primary-color;
     transition: color 0.3s ease-in-out;
     position: relative;
     &::before {
@@ -32,7 +33,7 @@ a:any-link {
         width: 100%;
         height: 0.2rem;
         position: absolute;
-        background: $primary-color;
+        background: vars.$primary-color;
         bottom: 0;
         transform: scaleX(0) translateY(100%);
         transition: transform 0.2s ease-in-out;
@@ -40,7 +41,7 @@ a:any-link {
     &:hover,
     &:active,
     &:focus-within {
-        color: darken($bg-color, 50);
+        color: color.adjust(vars.$bg-color, $lightness: -50%);
         &::before {
             transform: scaleX(100%) translateY(100%);
         }
@@ -59,8 +60,8 @@ select {
     display: block;
 
     border-radius: 0.1rem;
-    padding: $default-space;
-    background: $bg-color;
+    padding: vars.$default-space;
+    background: vars.$bg-color;
 }
 button {
     cursor: pointer;

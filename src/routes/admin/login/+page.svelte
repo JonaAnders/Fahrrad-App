@@ -2,9 +2,13 @@
     import { enhance } from "$app/forms";
     import type { ActionData } from "./$types";
 
-    export let form: ActionData;
+    interface Props {
+        form: ActionData;
+    }
 
-    let loading = false;
+    let { form }: Props = $props();
+
+    let loading = $state(false);
 </script>
 
 <svelte:head><title>Anmelden</title></svelte:head>
@@ -49,18 +53,18 @@
 </form>
 
 <style lang="scss">
-    @import "../../../lib/styles/vars";
+    @use "../../../lib/styles/vars";
     form {
         display: flex;
         flex-direction: column;
-        gap: $default-space * 2;
+        gap: vars.$default-space * 2;
         padding: 2rem;
-        background: $bg-color;
-        border: 0.2rem solid $primary-color;
+        background: vars.$bg-color;
+        border: 0.2rem solid vars.$primary-color;
         input,
         button {
-            border: 0.2rem solid $primary-color;
-            background: $light-bg;
+            border: 0.2rem solid vars.$primary-color;
+            background: vars.$light-bg;
         }
         .errors {
             display: flex;
